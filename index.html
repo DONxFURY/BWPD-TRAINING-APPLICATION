@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BWPD Training - Application</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            color: #4a90e2;
+        }
+
+        .department-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .department-btn {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .department-btn.active {
+            background: #4a90e2;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 1rem;
+            background: #4a90e2;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background: #357abd;
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .department-selector {
+                flex-direction: column;
+            }
+        }
+
+        /* Add new requirements section styles */
+        .requirements {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .requirements h2 {
+            color: #4a90e2;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .requirements ul {
+            list-style-type: none;
+            padding-left: 1rem;
+        }
+
+        .requirements li {
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .requirements li:before {
+            content: "•";
+            color: #4a90e2;
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .note {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BWPD Training - Application</h1>
+        
+        <!-- Add requirements section -->
+        <div class="requirements">
+            <h2>Application Requirements:</h2>
+            <ul>
+                <li>Must have submitted a Police Department application. (Application Link: <a href="https://forms.gle/5dBNt6uWpSqvZvBYA" target="_blank" style="color: #4a90e2;">Click here</a>)</li>
+                <li>Valid weapon license</li>
+                <li>Clean criminal record</li>
+                <li>No gang affiliations in family or social circles</li>
+                <li>Active driver's license with a minimum of 1-2 hours daily availability</li>
+                <li>Completion of 10 real training hours (must be spread over multiple days)</li>
+            </ul>
+            <p class="note">Note: The 10 training hours must be completed over multiple days, not all in one day.</p>
+        </div>
+        
+        <div class="department-selector">
+            <button type="button" class="department-btn active" data-department="PD">Police Department</button>
+        </div>
+
+        <form id="applicationForm">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" min="18" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nationality">Nationality</label>
+                <select id="nationality" name="nationality" required>
+                    <option value="">Select Nationality</option>
+                    <!-- Nationality Options -->
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="experience">Previous Experience</label>
+                <textarea id="experience" name="experience" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="reason">Why do you want to join?</label>
+                <textarea id="reason" name="reason" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="additional">Additional Information</label>
+                <textarea id="additional" name="additional" rows="3"></textarea>
+            </div>
+
+            <button type="submit">Submit Application</button>
+            <div class="loading">Sending application...</div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('applicationForm');
+        const loading = document.querySelector('.loading');
+        const departmentButtons = document.querySelectorAll('.department-btn');
+
+        // Replace this with your Discord webhook URL
+        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1359771528245542932/jlxJVJo489eTO2Pq4SgXZGZfYbcg1OC0I9RPlfkfFLQHWhwTUqKJhbRcbCakO2jDn9yH';
+
+        departmentButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                departmentButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            const selectedDepartment = document.querySelector('.department-btn.active').dataset.department;
+            
+            const applicationData = {
+                department: selectedDepartment,
+                fullName: formData.get('fullName'),
+                age: formData.get('age'),
+                nationality: formData.get('nationality'),
+                experience: formData.get('experience'),
+                reason: formData.get('reason'),
+                additional: formData.get('additional')
+            };
+
+            loading.style.display = 'block';
+            
+            try {
+                await sendToDiscord(applicationData);
+                alert('Application submitted successfully!');
+                form.reset();
+            } catch (error) {
+                alert('Error submitting application. Please try again.');
+                console.error(error);
+            } finally {
+                loading.style.display = 'none';
+            }
+        });
+
+        async function sendToDiscord(data) {
+            const embed = {
+                title: `New ${data.department} Application`,
+                color: data.department === 'PD' ? 0x3498db : 0xe74c3c,
+                fields: [
+                    { name: 'Full Name', value: data.fullName },
+                    { name: 'Age', value: data.age },
+                    { name: 'Nationality', value: data.nationality },
+                    { name: 'Experience', value: data.experience },
+                    { name: 'Reason for Joining', value: data.reason },
+                    { name: 'Additional Info', value: data.additional || 'N/A' }
+                ],
+                timestamp: new Date().toISOString()
+            };
+
+            const payload = {
+                content: `@here New ${data.department} Application Received`,
+                embeds: [embed]
+            };
+
+            const response = await fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to send to Discord');
+            }
+        }
+    </script>
+</body>
+</html>
